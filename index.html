@@ -1,17 +1,27 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ChatLoop</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  </body>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
-<script src="https://ais-dev-nypq4kppc7qugxmck6qhzy-613058346936.asia-east1.run.app/watch.js" data-project-id="active" async></script>
+import { AuthProvider, useAuth } from './context/AuthContext'
+import { AuthScreen } from './components/AuthScreen'
+import { ChatRoom } from './components/ChatRoom'
+
+function AppContent() {
+  const auth = useAuth()
+  const session = auth?.session
+  const loading = auth?.loading
+
+  if (loading) {
+    return (
+      <div className="loading-screen">
+        <div className="loading-spinner"></div>
+      </div>
+    )
+  }
+
+  return session ? <ChatRoom /> : <AuthScreen />
+}
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
+  )
+}
