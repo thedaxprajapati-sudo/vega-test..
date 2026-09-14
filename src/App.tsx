@@ -3,7 +3,9 @@ import { AuthScreen } from './components/AuthScreen'
 import { ChatRoom } from './components/ChatRoom'
 
 function AppContent() {
-  const { session, loading } = useAuth()
+  const auth = useAuth()
+  const session = auth?.session
+  const loading = auth?.loading ?? false
 
   if (loading) {
     return (
